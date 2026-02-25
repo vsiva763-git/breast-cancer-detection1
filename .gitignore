@@ -1,9 +1,4 @@
 
-# Model files
-*.pt
-*.pth
-models/*.pkl
-
 # Datasets
 data/
 
