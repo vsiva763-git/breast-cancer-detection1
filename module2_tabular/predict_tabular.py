@@ -1,6 +1,15 @@
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import joblib
 import numpy as np
-from utils.helpers import normalize_probability, format_risk_score
+
+def normalize_probability(prob):
+    return float(np.clip(prob, 0.0, 1.0))
+
+def format_risk_score(prob):
+    return round(float(prob) * 100, 1)
 
 def load_tabular_model(model_path='models/xgboost_model.pkl',
                         scaler_path='models/scaler.pkl'):
@@ -13,7 +22,6 @@ def predict_tabular(features: list, model, scaler) -> dict:
     features: list of 30 clinical values in Wisconsin feature order
     Returns: dict with probability, label, confidence
     """
-    import numpy as np
     X = np.array(features).reshape(1, -1)
     X_scaled = scaler.transform(X)
 

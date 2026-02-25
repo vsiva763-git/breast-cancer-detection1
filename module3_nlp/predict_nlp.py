@@ -1,14 +1,17 @@
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import joblib
-from utils.helpers import normalize_probability
+import numpy as np
+
+def normalize_probability(prob):
+    return float(np.clip(prob, 0.0, 1.0))
 
 def load_nlp_model(model_path='models/nlp_pipeline.pkl'):
     return joblib.load(model_path)
 
 def predict_text(symptom_text: str, pipeline) -> dict:
-    """
-    symptom_text: plain English symptom description
-    Returns: dict with probability, label, confidence
-    """
     if not symptom_text or len(symptom_text.strip()) < 3:
         return {
             'probability': 0.0,
